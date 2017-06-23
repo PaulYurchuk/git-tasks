@@ -25,7 +25,9 @@
   * *make jenkins start at system startup*
   * *set "JENKINS_HOME" environment variable*
   * *set "JENKINS_DIR" environment variable*
-  
+
 **G.** Install and configure NGINX
 
-**H.** Configure SELinux and firewalld
+**H.** Solving problems with NGINX
+
+
