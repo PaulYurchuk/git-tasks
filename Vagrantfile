@@ -12,9 +12,35 @@ end
 
 config.vm.post_up_message = "VM has been successfully created"
 
-#config.vm.provision "shell", inline: <<-SHELL
+config.vm.provision "shell", inline: <<-SHELL
 
 
-#SHELL
+sudo yum install nginx
+
+cat > /etc/systemd/system/jenkins.service <<- EOM
+
+# Systemd unit file for jenkins
+[Unit]
+Description=Jenkins Server Daemon
+After=syslog.target network.target
+
+[Service]
+ExecStart/etc/systemd/system/jenkins.service
+Restart=always
+Type=forking
+
+Environment=JENKINS_HOME=/opt/jenkins/master
+Environment=JENKINS_DIR=/opt/jenkins/bin
+
+[Install]
+WantedBy=multi-user.target
+
+EOM
+
+systemctl daemon-reload
+systemctl enable jenkins
+
+ 
+SHELL
 
 end
