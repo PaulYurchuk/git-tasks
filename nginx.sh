@@ -28,3 +28,9 @@ echo "server {
     } " >>/etc/nginx/conf.d/newser.conf;
 
 
+systemctl enable nginx;
+systemctl start nginx;
+
+echo "127.0.0.1 jenkins" >> /etc/hosts
+echo "Hello"
+
