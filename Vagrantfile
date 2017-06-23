@@ -23,5 +23,6 @@ config.vm.define "newjenkins" do |newjenkins|
    	end
 	newjenkins.vm.post_up_message = "Jenkins VM is ready to work"
 	newjenkins.vm.provision "shell", path: "./jenkins.sh"
+	newjenkins.vm.provision "shell", path: "./nginxinst.sh"
 end
 end 
