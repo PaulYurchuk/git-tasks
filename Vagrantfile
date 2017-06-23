@@ -18,6 +18,18 @@ Vagrant.configure("2") do |config|
     mkdir /opt/jenkins/ /opt/jenkins/master /opt/jenkins/bin
     useradd jenkins
     chown -R jenkins /opt/jenkins
+    echo "[Unit]
+Description=Jenkins Daemon
+
+[Service]
+ExecStart=/usr/bin/java -jar $JENKINS_DIR/jenkins.war
+User=jenkins
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/jenkins.service
+    systemctl daemon-reload
+    systemctl enable jenkins.service
+    systemctl start jenkins.service
     SHELL
   end
 end
