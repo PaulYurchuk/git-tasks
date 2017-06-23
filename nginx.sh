@@ -32,9 +32,4 @@ systemctl enable nginx;
 systemctl start nginx;
 
 echo "127.0.0.1 jenkins" >> /etc/hosts
-<<<<<<< HEAD
-echo "Hello"
 
-=======
-echo "1111111111111111111111111111111111"
->>>>>>> nginx
