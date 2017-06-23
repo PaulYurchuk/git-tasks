@@ -12,5 +12,9 @@ Vagrant.configure("2") do |config|
       v.memory = "2048"
       v.name = "jenkinsVM"
     end
+    jenkins.vm.provision "shell", inline: <<-SHELL
+    sudo su
+    mkdir /opt/jenkins/ /opt/jenkins/master /opt/jenkins/bin
+    SHELL
   end
 end
