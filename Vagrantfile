@@ -4,6 +4,8 @@ Vagrant.configure("2") do |config|
     jenkins.vm.hostname = 'jenkins'
     jenkins.vm.box_url = "sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
 
+    jenkins.vm.network :private_network, ip: "192.168.56.101"
+
     jenkins.vm.synced_folder "share/", "/share"
     
     jenkins.vm.provider :virtualbox do |v|
