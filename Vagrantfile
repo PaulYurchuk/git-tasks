@@ -47,14 +47,20 @@ Vagrant.configure("2") do |config|
 	echo "export PATH=$PATH:/opt/jdk1.8.0_131/bin:/opt/jdk1.8.0_131/jre/bin" >>/etc/environment
 	
 	###JENKINS install###
-	echo "export JENKINS_HOME=/opt/jenkins/master"
-	echo "export JENKINS_DIR=/opt/jenkins"
+	mkdir -p /opt/jenkins/{bin,master}
+	groupadd jenkins
+	useradd -g jenkins -d /opt/jenkins/master jenkins
+	echo "export JENKINS_HOME=/opt/jenkins/master" >>/etc/environment
+	export JENKINS_HOME=/opt/jenkins/master
+	echo "export JENKINS_DIR=/opt/jenkins/bin" >>/etc/environment
+	export JENKINS_DIR=/opt/jenkins/bin
 	cd $JENKINS_DIR && wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war -a /var/log/wget.log
 	echo "wget command finished - you may chack /var/log/wget.log for results"
 	#init script#
-	touch /opt/jenkins/jnk-stup.sh
-	echo "java -jar $JENKINS_DIR/jenkins.war > /var/log/jenkins-startup 2> /var/log/jenkins-startup2 &" > /opt/jenkins/jnk-stup.sh
-	chmod +x /opt/jenkins/jnk-stup.sh
+#	touch /opt/jenkins/jnk-stup.sh
+#	echo "sudo -u jenkins java -jar $JENKINS_DIR/jenkins.war > /var/log/jenkins-startup 2> /var/log/jenkins-startup2 &" > /opt/jenkins/jnk-stup.sh
+#	chmod +x /opt/jenkins/jnk-stup.sh
+	chown -R jenkins:jenkins /opt/jenkins/
 	cd /etc/systemd/system
         wget https://raw.githubusercontent.com/MNT-Lab/git-tasks/yshchanouski-vtarasiuk/jenkins.service -a /var/log/wget.log
 	systemctl daemon-reload
