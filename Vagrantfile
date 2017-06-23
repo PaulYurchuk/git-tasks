@@ -30,10 +30,16 @@ EOL
 		systemctl enable nginx.service
 		systemctl start nginx.service
 
+		useradd jenkins
+		mkdir /opt/jenkins/
+		chown -R /opt/jenkins/
+		chmod -R 755 /opt/jenkins/
+
+		cp /vagrant/jenkins.war /opt/jenkins/
+
 		export JENKINS_HOME=/opt/jenkins/master 
 		export JENKINS_DIR=/opt/jenkins/bin
 
-		touch /etc/systemd/system/jenkins.service
 		cat > /etc/systemd/system/jenkins.service << EOL
 		[Unit]
 		Description=Jenkins Daemon
