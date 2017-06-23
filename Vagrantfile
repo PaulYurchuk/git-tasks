@@ -32,7 +32,7 @@ EOL
 
 		useradd jenkins
 		mkdir /opt/jenkins/
-		chown -R /opt/jenkins/
+		chown -R jenkins /opt/jenkins/
 		chmod -R 755 /opt/jenkins/
 
 		cp /vagrant/jenkins.war /opt/jenkins/
