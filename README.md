@@ -3,13 +3,15 @@
 ## Aleksei
 
 Customize init Vagrantfile  
-Setup Jenkins
+Setup Jenkins  
+Customize script_aleksei.sh  
 
 ## Daniil
 
 Manage work  
 Setup nginx  
 Customize readmefile  
+Customize script_daniil.sh  
 
 ## Work with git 
 
@@ -20,7 +22,7 @@ Customize readmefile
 
 *Sync folders for files*  
 *Check avialability of vagrant up*  
-*Added filelinks"   
+*Added filelinks*   
 
 ## Redacting README.md file
 
