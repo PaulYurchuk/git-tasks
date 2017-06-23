@@ -1,3 +1,18 @@
 #! /bin/bash
-sudo yum install -y java
-/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar jenkins.war
+mkdir -p /opt/jenkins/bin
+mkdir /opt/jenkins/master
+cp /home/vagrant/jenkins.war /opt/jenkins/bin
+
+yum install java -y 
+
+useradd jenkins
+usermod -p $(echo root | openssl passwd -1 -stdin) jenkins
+usermod jenkins -G wheel
+
+
+export JENKINS_HOME=/opt/jenkins/master
+
+cp /home/vagrant/jenkins.service /etc/systemd/system
+
+sudo su jenkins
+systemctl start jenkins.service

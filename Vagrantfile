@@ -17,6 +17,7 @@ Vagrant.configure("2") do |jenkins|
  jenkins.vm.post_up_message = "jenkins vm is loaded"
  jenkins.vm.provision "file", source: "~/Documents/vagrant/jenkins.war", destination: "jenkins.war"
  jenkins.vm.provision "file", source: "~/Documents/vagrant/java.tar.gz", destination: "java.tar.gz"
+ jenkins.vm.provision "file", source: "~/Documents/vagrant/jenkins.service", destination: "jenkins.service"
 
  jenkins.vm.provision "shell", path: "script_daniil.sh" 
  jenkins.vm.provision "shell", path: "script_aleksei.sh"
