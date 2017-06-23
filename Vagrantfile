@@ -13,11 +13,27 @@ Vagrant.configure("2") do |config|
      useradd jenkins
      mkdir -p /opt/jenkins/bin
      mkdir -p /opt/jenkins/master
-     chown jenkins:jenkins /opt/jenkins/bin
-     chown jenkins:jenkins /opt/jenkins/master
-     chmod 775 /opt/jenkins/bin
-     chmod 775 /opt/jenkins/master
+     chown -R jenkins:jenkins /opt/jenkins
+     chmod -R 775 /opt/jenkins
      cp /vagrant/jenkins.war /opt/jenkins/bin
      yum localinstall /vagrant/jdk-8u131-linux-x64.rpm -y
+     cat <<EOF > /usr/lib/systemd/system/jenkins.service
+	 [Unit]
+	 Description=Jenkins
+	 After=network-network.target remote-fs.target nss-lookup.target
+	 [Service]
+	 Type=simple
+	 User=jenkins
+	 Group=jenkins
+	 Environment=JENKINS_HOME=/opt/jenkins/master
+	 Environment=JENKINS_DIR=/opt/jenkins/bin
+	 ExecStart=/usr/java/jdk1.8.0_131/jre/bin/java -jar /opt/jenkins/bin/jenkins.war
+	 ExecStop=/bin/kill -s QUIT $MAINPID
+	 [Install]
+	 WantedBy=multi-user.target
+	 EOF
+	 systemctl daemon-reload
+	 systemctl enable jenkins
+#	 systemctl start jenkins # uncomment after disabling SELinux
     SHELL
 end
