@@ -20,12 +20,36 @@ config.vm.provision "shell", inline: <<-SHELL
 #---Jenkins----
 mkdir /opt/jenkins
 mkdir /opt/jenkins/bin
+mkdir /opt/jenkins/master
+chown -R jenkins:jenkins /opt/jenkins
 cp /vagrant/jenkins.war /opt/jenkins/bin/jenkins.war
 groupadd jenkins
 useradd -g jenkins -c "jenkins user" jenkins
 echo jenkins | passwd jenkins --stdin
 
 
- SHELL
+#-- Creating systemd .service script for JENKINS
+touch /etc/systemd/system/jenkins.service
+echo "
+[Unit]
+Description=Jenkins
+After=network.target
+Requires=network.target
+
+[Service]
+Type=simple
+Environment=JENKINS_HOME=/opt/jenkins/master
+Environment=JENKINS_DIR=/opt/jenkins/bin
+ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar $JENKINS_DIR/jenkins.war
+Restart=always
+User=jenkins
+RestartSec=20
+
+[Install]
+WantedBy=multi-user.target " > /etc/systemd/system/jenkins.service
+
+systemctl enable jenkins.service
+systemctl start jenkins
+SHELL
 end
 end
