@@ -7,17 +7,18 @@ Vagrant.configure("2") do |config|
     jenkins.vm.network :private_network, ip: "192.168.56.101"
 
     jenkins.vm.synced_folder "share/", "/share"
-        
+    
     jenkins.vm.provider :virtualbox do |v|
       v.memory = "4096"
       v.name = "jenkinsVM"
     end
     jenkins.vm.provision "shell", inline: <<-SHELL
     sudo su
-    yum -y install java-devel
     mkdir /opt/jenkins/ /opt/jenkins/master /opt/jenkins/bin
     useradd jenkins
     chown -R jenkins /opt/jenkins
+    yum -y install java-devel
+    cp /share/jenkins.war  /opt/jenkins/bin/  
     export JENKINS_DIR=/opt/jenkins/bin
     export JENKINS_HOME=/opt/jenkins/master
     echo "JENKINS_DIR=/opt/jenkins/bin
@@ -35,6 +36,12 @@ WantedBy=multi-user.target" > /etc/systemd/system/jenkins.service
     systemctl enable jenkins.service
     systemctl start jenkins.service
     yum -y install nginx
+    echo "location / {
+                proxy_pass http://192.168.56.101:8080/;
+        }" > /etc/nginx/default.d/jenkins.conf
+    sed -i 's@location / @location /index@g' /etc/nginx/nginx.conf
+    systemctl start nginx
     SHELL
   end
 end
+
