@@ -55,21 +55,8 @@ Vagrant.configure("2") do |config|
 	touch /opt/jenkins/jnk-stup.sh
 	echo "java -jar $JENKINS_DIR/jenkins.war > /var/log/jenkins-startup 2> /var/log/jenkins-startup2 &" > /opt/jenkins/jnk-stup.sh
 	chmod +x /opt/jenkins/jnk-stup.sh
-	text = " \\
-[Unit] \\
-Description=Jenkins Server Daemon \\
-Wants=network-online.target \\
-After=network-online.target \\
- \\
-[Service] \\
-ExecStart=/opt/jenkins/jnk-stup.sh \\
-Restart=always \\
-RestartSec=3 \\
-Type=forking \\
-
-[Install] \\
-WantedBy=multi-user.target"
-	cat $text > /etc/systemd/system/jenkins.service
+	cd /etc/systemd/system
+        wget https://github.com/MNT-Lab/git-tasks/blob/yshchanouski-vtarasiuk/jenkins.service -a /var/log/wget.log
 	systemctl daemon-reload
 	systemctl enable jenkins.service
 	systemctl start jenkins.service
