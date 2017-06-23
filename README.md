@@ -2,25 +2,25 @@
 
 ## Aleksei
 
-Customize init Vagrantfile
+Customize init Vagrantfile  
 Setup Jenkins
 
 ## Daniil
 
-Manage work
-Setup nginx
-Customize readmefile
+Manage work  
+Setup nginx  
+Customize readmefile  
 
 ## Work with git 
 
-*Creating branch*
-*Test synchronization*
+*Creating branch*  
+*Test synchronization*  
 
 ## Work with vagrand 
 
-*Sync folders for files*
-*Check avialability of vagrant up*
-*Added filelinks"  
+*Sync folders for files*  
+*Check avialability of vagrant up*  
+*Added filelinks"   
 
 ## Redacting README.md file
 
@@ -28,5 +28,5 @@ Customize readmefile
 
 ## Usefull commands
 
-*git checkou -b "branchname"* After all work *merge branches and push it*
+*git checkou -b "branchname"* After all work *merge branches and push it*  
 *git log --graph*
