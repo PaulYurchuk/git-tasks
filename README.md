@@ -10,8 +10,8 @@
 ###### e) Closed by Nginx and available by link http://jenkins
 ###### p.s. Please put .box file beside Vagrantfile
 ###### Vagrant jenkins&nginx v 1.0 by akarzhou, hpashuto
-###### akarzhou - installing and configuring nginx
-###### hpashuto - installing and configuring jenkins
+# akarzhou - installing and configuring nginx
+# hpashuto - installing and configuring jenkins
 
 
 ![alt text][logo]
