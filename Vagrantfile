@@ -26,9 +26,9 @@ Vagrant.configure("2") do |config|
 	###NGINX configuring###
 	cd /etc/nginx
 	rm -rf nginx.conf
-	wget https://github.com/MNT-Lab/git-tasks/blob/yshchanouski-vtarasiuk/nginx.conf -a /var/log/wget.log
+	wget https://raw.githubusercontent.com/MNT-Lab/git-tasks/yshchanouski-vtarasiuk/nginx.conf -a /var/log/wget.log
 	cd /etc/nginx/conf.d
-	wget https://github.com/MNT-Lab/git-tasks/blob/yshchanouski-vtarasiuk/server.conf -a /var/log/wget.log
+	wget https://raw.githubusercontent.com/MNT-Lab/git-tasks/yshchanouski-vtarasiuk/server.conf -a /var/log/wget.log
 	systemctl start nginx	
 
 	###JAVA install ###
@@ -56,7 +56,7 @@ Vagrant.configure("2") do |config|
 	echo "java -jar $JENKINS_DIR/jenkins.war > /var/log/jenkins-startup 2> /var/log/jenkins-startup2 &" > /opt/jenkins/jnk-stup.sh
 	chmod +x /opt/jenkins/jnk-stup.sh
 	cd /etc/systemd/system
-        wget https://github.com/MNT-Lab/git-tasks/blob/yshchanouski-vtarasiuk/jenkins.service -a /var/log/wget.log
+        wget https://raw.githubusercontent.com/MNT-Lab/git-tasks/yshchanouski-vtarasiuk/jenkins.service -a /var/log/wget.log
 	systemctl daemon-reload
 	systemctl enable jenkins.service
 	systemctl start jenkins.service
