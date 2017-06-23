@@ -13,19 +13,20 @@ Vagrant.configure("2") do |config|
       vb.name = "jenkins"
     end
 config.vm.provision "shell", inline: <<-SHELL
-
+yum install java-1.8.0-openjdk.x86_64 -y
 
 
 
 #---Jenkins----
+groupadd jenkins
+useradd -g jenkins -c "jenkins user" jenkins
+echo jenkins | passwd jenkins --stdin
 mkdir /opt/jenkins
 mkdir /opt/jenkins/bin
 mkdir /opt/jenkins/master
 chown -R jenkins:jenkins /opt/jenkins
 cp /vagrant/jenkins.war /opt/jenkins/bin/jenkins.war
-groupadd jenkins
-useradd -g jenkins -c "jenkins user" jenkins
-echo jenkins | passwd jenkins --stdin
+
 
 
 #-- Creating systemd .service script for JENKINS
@@ -46,7 +47,7 @@ User=jenkins
 RestartSec=20
 
 [Install]
-WantedBy=multi-user.target " > /etc/systemd/system/jenkins.service
+WantedBy=multi-user.target " >> /etc/systemd/system/jenkins.service
 
 systemctl enable jenkins.service
 systemctl start jenkins
