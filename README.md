@@ -5,8 +5,9 @@ Responsible for task:
 ```
 
 Our tasks:
-|№| Responsible | Task 
-|-| ----------- | ---- 
+
+|№| Responsible | Task
+|-| ----------- | ----
 |1| Anton Maslakou |Make branch
 |2| Anton Maslakou |Push branch
 |3| Anton Maslakou | List tasks in readme
