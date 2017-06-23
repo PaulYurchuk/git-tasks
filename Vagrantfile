@@ -14,7 +14,10 @@ Vagrant.configure("2") do |config|
     end
     jenkins.vm.provision "shell", inline: <<-SHELL
     sudo su
+    yum -y install java-devel
     mkdir /opt/jenkins/ /opt/jenkins/master /opt/jenkins/bin
+    useradd jenkins
+    chown -R jenkins /opt/jenkins
     SHELL
   end
 end
