@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo su
 yum install nginx -y;
+sed -i '38d;39d;40d;41d;42d;43d;44d;45d;46d;47d;48d;49d;50d;51d;52d;53d;54d;55d;56d;57d' /etc/nginx/nginx.conf;
 
 touch /etc/nginx/conf.d/newser.conf;
 echo "server {
@@ -26,6 +27,8 @@ echo "server {
         }
     } " >>/etc/nginx/conf.d/newser.conf;
 
+systemctl enable nginx;
+systemctl start nginx;
 
-
+echo "127.0.0.1 jenkins" >> /etc/hosts
 
