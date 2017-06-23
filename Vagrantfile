@@ -66,7 +66,8 @@ Vagrant.configure("2") do |config|
 	systemctl daemon-reload
 	systemctl enable jenkins.service
 	systemctl start jenkins.service
-	echo "Admin Password: " && cat /opt/jenkins/master/secrets/initialAdminPassword
+	sleep 4s
+	echo "Admin Password: " && cat /opt/jenkins/master/.jenkins/secrets/initialAdminPassword
     SHELL
   end
 end
