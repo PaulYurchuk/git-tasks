@@ -29,6 +29,10 @@ Vagrant.configure("2") do |config|
 EOL
 		systemctl enable nginx.service
 		systemctl start nginx.service
+
+		export JENKINS_HOME=/opt/jenkins/master 
+		export JENKINS_DIR=/opt/jenkins/bin
+
 		touch /etc/systemd/system/jenkins.service
 		cat > /etc/systemd/system/jenkins.service << EOL
 		[Unit]
@@ -38,7 +42,7 @@ EOL
 		User=jenkins
 		[Install]
 		WantedBy=multi-user.target
-		EOL
+EOL
 		systemctl daemon-reload
 		systemctl enable jenkins.service
 		systemctl start jenkins.service
