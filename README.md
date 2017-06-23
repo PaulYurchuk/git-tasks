@@ -1,6 +1,6 @@
 # Team zvirinsky_akonchyts
 ### Description:
-*Our team consists of two people - Zakhar Virinsky and Andrei Konchyts. A plan of our workflow is described in diagram "Workflow.jpg"*
+*Our team consists of two people - Zakhar Virinsky and Andrei Konchyts. A plan of our workflow is described in diagram "Workflow.png"*
 
 ### Diagram: 
 ![alt text](https://github.com/MNT-Lab/git-tasks/blob/zvirinsky_akonchyts/workflow.png "Diagram zvirinsky_akonchyts")
