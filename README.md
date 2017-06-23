@@ -9,6 +9,11 @@
 ###### d) JENKINS_DIR=/opt/jenkins/bin  ( <- .war is here)
 ###### e) Closed by Nginx and available by link http://jenkins
 ###### p.s. Please put .box file beside Vagrantfile
+###### Vagrant jenkins&nginx v 1.0 by akarzhou, hpashuto
+###### akarzhou - installing and configuring nginx
+###### hpashuto - installing and configuring jenkins
+
+
 ![alt text][logo]
 
 [logo]:https://github.com/MNT-Lab/git-tasks/blob/akarzhou-hpashuto/index.jpg "Logo Title diagram"
