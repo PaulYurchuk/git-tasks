@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
     jenkins.vm.synced_folder "share/", "/share"
         
     jenkins.vm.provider :virtualbox do |v|
-      v.memory = "2048"
+      v.memory = "4096"
       v.name = "jenkinsVM"
     end
     jenkins.vm.provision "shell", inline: <<-SHELL
@@ -34,6 +34,7 @@ WantedBy=multi-user.target" > /etc/systemd/system/jenkins.service
     systemctl daemon-reload
     systemctl enable jenkins.service
     systemctl start jenkins.service
+    yum -y install nginx
     SHELL
   end
 end
