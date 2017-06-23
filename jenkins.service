@@ -1,0 +1,13 @@
+[Unit]
+Description=Jenkins Server Daemon
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/opt/jenkins/jnk-stup.sh
+Restart=always
+RestartSec=3 
+Type=forking 
+
+[Install]
+WantedBy=multi-user.target
