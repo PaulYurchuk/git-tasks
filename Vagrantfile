@@ -10,6 +10,6 @@ Vagrant.configure("2") do |config|
       vb.memory = "4096"
       vb.name = "jenkins"
     end
-#config.vm.provision "shell", path: "nginx.sh"
+  config.vm.provision "shell", path: "nginx.sh"
   end
 end
