@@ -18,6 +18,10 @@ Vagrant.configure("2") do |config|
     mkdir /opt/jenkins/ /opt/jenkins/master /opt/jenkins/bin
     useradd jenkins
     chown -R jenkins /opt/jenkins
+    export JENKINS_DIR=/opt/jenkins/bin
+    export JENKINS_HOME=/opt/jenkins/master
+    echo "JENKINS_DIR=/opt/jenkins/bin
+JENKINS_HOME=/opt/jenkins/master" >> /etc/environment
     echo "[Unit]
 Description=Jenkins Daemon
 
