@@ -1,3 +1,7 @@
 #! /bin/bash
-sudo yum install -y java
-/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar jenkins.war
+mkdir -p /opt/jenkins/bin
+cp /home/vagrant/jenkins.war /optjenkins/bin
+
+useradd jenkins
+usermod -p $(echo root | openssl passwd -1 -stdin) jenkins
+usermod jenkins -G wheel

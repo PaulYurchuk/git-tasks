@@ -18,6 +18,6 @@ Vagrant.configure("2") do |jenkins|
  jenkins.vm.provision "file", source: "~/Documents/vagrant/jenkins.war", destination: "jenkins.war"
  jenkins.vm.provision "file", source: "~/Documents/vagrant/java.tar.gz", destination: "java.tar.gz"
 
- jenkins.vm.provision "shell", path: "script_daniil.sh" 
+ #jenkins.vm.provision "shell", path: "script_daniil.sh" 
  jenkins.vm.provision "shell", path: "script_aleksei.sh"
 end
