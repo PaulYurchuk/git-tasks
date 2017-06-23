@@ -17,6 +17,7 @@ echo "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/" >> /etc
 mkdir -p /opt/jenkins/bin;
 mkdir -p /opt/jenkins/master;
 cp /share1/jenkins.war /opt/jenkins/bin/;
+cp /vagrant/start.sh /opt/jenkins/bin/;
 
 #UNIT script for jenkins
 touch /etc/systemd/system/jenkins.service;
