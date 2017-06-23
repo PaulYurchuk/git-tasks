@@ -22,3 +22,6 @@ Our tasks:
 |12| Anton Maslakou| Set variables
 |13| Andrei Doropei| Install nginx
 |14| Anton Maslakou| Configure nginx
+
+##Diadgram
+<img src="https://drive.google.com/open?id=0BxV8loOItGJWSGZsNU1XVW1aclk.jpg">
