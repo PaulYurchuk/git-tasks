@@ -7,6 +7,22 @@ Vagrant.configure("2") do |config|
 	v.customize ["modifyvm", :id, "--name", "jenkins"]
 	jenkins.vm.provision "shell", inline: <<-SHELL
 		yum -y install java-1.8.0-openjdk-devel
+
+
+
+		touch /etc/systemd/system/jenkins.service
+		cat > /etc/systemd/system/jenkins.service << EOL
+		[Unit]
+		Description=Jenkins Daemon
+		[Service]
+		ExecStart=java -jar /opt/jenkins/jenkins.war
+		User=jenkins
+		[Install]
+		WantedBy=multi-user.target
+		EOL
+		systemctl daemon-reload
+		systemctl enable jenkins.service
+		systemctl start jenkins.service
 	SHELL
   end
 end
