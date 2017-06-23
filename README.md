@@ -1,5 +1,5 @@
-# git-tasks
+# git-tasks execution
 
-## Point1
+## Here is our git diagram
 
-*sdlkfjg*
+[Diagram]: https://github.com/MNT-Lab/git-tasks/blob/yshchanouski-vtarasiuk/img/yv.jpg
