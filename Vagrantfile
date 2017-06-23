@@ -41,13 +41,13 @@ EOL
 		export JENKINS_DIR=/opt/jenkins/bin
 
 		cat > /etc/systemd/system/jenkins.service << EOL
-		[Unit]
-		Description=Jenkins Daemon
-		[Service]
-		ExecStart=java -jar /opt/jenkins/jenkins.war
-		User=jenkins
-		[Install]
-		WantedBy=multi-user.target
+[Unit]
+Description=Jenkins Daemon
+[Service]
+ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar /opt/jenkins/jenkins.war
+User=jenkins
+[Install]
+WantedBy=multi-user.target
 EOL
 		systemctl daemon-reload
 		systemctl enable jenkins.service
