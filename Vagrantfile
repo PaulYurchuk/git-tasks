@@ -62,6 +62,25 @@ cp /vagrant/jenkins.war /opt/jenkins/bin/
 chown -R jenkins:jenkins /opt/jenkins
 chmod -R 775 /opt/jenkins
 
+cat > /etc/systemd/system/multi-user.target.wants/jenkins.service <<- EOM
+[Unit]
+Description=Jenkins Service
+After=network.target
+
+[Service]
+
+Type=simple
+User=jenkins
+Group=jenkins
+Environment=JENKINS_HOME=/opt/jenkins/master
+Environment=JENKINS_DIR=/opt/jenkins/bin
+ExecStart=/usr/bin/java -jar /opt/jenkins/bin/jenkins.war
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+
+EOM
 
 SHELL
 
