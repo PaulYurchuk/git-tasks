@@ -2,30 +2,30 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-   config.vm.box = "sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
+    config.vm.box = "sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
     config.vm.hostname = "jenkins"
     config.vm.network "private_network", ip: "192.168.50.10"
     config.vm.provider "virtualbox" do |vb|
     vb.memory = "2048"
     vb.name = "jenkins"
-end
-
-config.vm.post_up_message = "VM has been successfully created"
-
-config.vm.provision "shell", inline: <<-SHELL
+  end
+  config.vm.provision "shell", inline: <<-SHELL
 
 yum -y install nginx
 rm -rf /etc/nginx/nginx.conf
 
 cat > /etc/nginx/nginx.conf <<- EOM
+
 user nginx;
 worker_processes 1;
 error_log /var/log/nginx/error.log;
 pid /run/nginx.pid;
 include /usr/share/nginx/modules/*.conf;
+
 events {
     worker_connections 1024;
 }
+
 http {
     access_log  /var/log/nginx/access.log;
     sendfile            on;
@@ -53,33 +53,17 @@ error_page   500 502 503 504  /50x.html;
 }
 }
 
-EOM
+yum -y install java
 
-cat > /etc/systemd/system/jenkins.service <<- EOM
+group add jenkins
+useradd jenkins -d /opt/jenkins
+mkdir -p /opt/jenkins/bin
+cp /vagrant/jenkins.war /opt/jenkins/bin/
+chown -R jenkins:jenkins /opt/jenkins
+chmod -R 775 /opt/jenkins
 
-# Systemd unit file for jenkins
-[Unit]
-Description=Jenkins Server Daemon
-After=syslog.target network.target
 
-[Service]
-ExecStart/etc/systemd/system/jenkins.service
-Restart=always
-Type=forking
-
-Environment=JENKINS_HOME=/opt/jenkins/master
-Environment=JENKINS_DIR=/opt/jenkins/bin
-
-[Install]
-WantedBy=multi-user.target
-
-EOM
-
-systemctl daemon-reload
-systemctl enable jenkins
-systemctl enable nginx
-systemctl start nginx
- 
 SHELL
 
 end
+
