@@ -1,12 +1,14 @@
 # NIX.09 Continuous Delivery with Jenkins
 
 
-###Description of my team
+## Description of my team
 
-My team consists only from me)
+My team :+1: consists only from me)
 
 
-##Task 2 **Working with GIT**
+
+### Task 2 **Working with GIT**
+
 ```
 1.	Create Vagrantfile 
 
