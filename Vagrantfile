@@ -14,8 +14,8 @@ config.vm.post_up_message = "VM has been successfully created"
 
 config.vm.provision "shell", inline: <<-SHELL
 
+yum -y install nginx
 
-sudo yum install nginx
 
 cat > /etc/systemd/system/jenkins.service <<- EOM
 
@@ -39,7 +39,8 @@ EOM
 
 systemctl daemon-reload
 systemctl enable jenkins
-
+systemctl enable nginx
+systemctl start nginx
  
 SHELL
 
