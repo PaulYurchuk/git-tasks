@@ -2,4 +2,6 @@
 
 ## Point1
 
-The new great stuff will be here soon!
+Workflow for team
+
+-![alt text](https://github.com/MNT-Lab/git-tasks/raw/pyurchuk-ndolya/1.jpg  "git digram")
