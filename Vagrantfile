@@ -82,6 +82,11 @@ WantedBy=multi-user.target
 
 EOM
 
+systemctl daemon-reload 
+systemctl enable nginx
+systemctl enable jenkins
+systemctl start nginx
+systemctl start jenkins 
 SHELL
 
 end
