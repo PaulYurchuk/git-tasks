@@ -1,7 +1,6 @@
 # git-tasks
-#Description of my team
-Alt-We had a plan and followed it)
+============
+###Description of my team
+*We had a plan and followed it step by step)*
 
-## Point1
 
-*sdlkfjg*
