@@ -56,8 +56,8 @@ mkdir /opt/jenkins
 mkdir /opt/jenkins/bin
 mkdir /opt/jenkins/master
 chown -R jenkins:jenkins /opt/jenkins
-cp /vagrant/jenkins.war /opt/jenkins/bin/jenkins.war
-
+#cp /vagrant/jenkins.war /opt/jenkins/bin/jenkins.war
+wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
 
 
 #-- Creating systemd .service script for JENKINS
