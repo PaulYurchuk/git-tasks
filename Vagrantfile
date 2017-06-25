@@ -2,7 +2,8 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
+    config.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
+    config.vm.box_url = "https://atlas.hashicorp.com/sbeliakou/boxes/centos-7.3-x86_64-minimal"
     config.vm.hostname = "jenkins"
     config.vm.network "private_network", ip: "192.168.50.10"
     config.vm.provider "virtualbox" do |vb|
@@ -52,15 +53,17 @@ error_page   500 502 503 504  /50x.html;
         }
 }
 }
+EOM
 
 yum -y install java
 
 group add jenkins
 useradd jenkins -d /opt/jenkins
 mkdir -p /opt/jenkins/bin
-cp /vagrant/jenkins.war /opt/jenkins/bin/
+wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
 chown -R jenkins:jenkins /opt/jenkins
 chmod -R 775 /opt/jenkins
+
 
 cat > /etc/systemd/system/multi-user.target.wants/jenkins.service <<- EOM
 [Unit]
