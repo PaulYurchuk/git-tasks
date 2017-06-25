@@ -32,10 +32,13 @@ EOL
 
 		useradd jenkins
 		mkdir /opt/jenkins/
+		mkdir /opt/jenkins/bin
+		mkdir /opt/jenkins/master
+
 		chown -R jenkins /opt/jenkins/
 		chmod -R 755 /opt/jenkins/
 
-		cp /vagrant/jenkins.war /opt/jenkins/
+		wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
 
 		export JENKINS_HOME=/opt/jenkins/master 
 		export JENKINS_DIR=/opt/jenkins/bin
@@ -44,7 +47,7 @@ EOL
 [Unit]
 Description=Jenkins Daemon
 [Service]
-ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar /opt/jenkins/jenkins.war
+ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar /opt/jenkins/bin/jenkins.war
 User=jenkins
 [Install]
 WantedBy=multi-user.target
