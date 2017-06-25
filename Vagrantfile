@@ -48,7 +48,7 @@ config.vm.define "newjenkins" do |newjenkins|
 	exec 1>>${LOG_FILE}
 	exec 2>>${LOG_FILE}
 	nohup $JENKINS_RUN >> $LOG_FILE &
-	STFL
+STFL
 
 	#UNIT script for jenkins
 	touch /etc/systemd/system/jenkins.service;
