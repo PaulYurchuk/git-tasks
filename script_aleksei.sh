@@ -1,8 +1,7 @@
 #! /bin/bash
 mkdir -p /opt/jenkins/bin
 mkdir /opt/jenkins/master
-cp /home/vagrant/jenkins.war /opt/jenkins/bin
-
+wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
 yum install java -y 
 
 useradd jenkins
