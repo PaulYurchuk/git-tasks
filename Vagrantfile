@@ -38,8 +38,7 @@ config.vm.define "newjenkins" do |newjenkins|
 	mkdir -p /opt/jenkins/bin;
 	mkdir -p /opt/jenkins/master;
 	wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war;
-	java -jar /opt/jenkins/bin/jenkins.war"
-		
+			
 	#UNIT script for jenkins
 	touch /etc/systemd/system/jenkins.service;
 	cat >/etc/systemd/system/jenkins.service << EOL
