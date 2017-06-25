@@ -49,7 +49,8 @@ config.vm.define "newjenkins" do |newjenkins|
 	exec 2>>${LOG_FILE}
 	nohup $JENKINS_RUN >> $LOG_FILE &
 STFL
-
+	chmod +x /opt/jenkins/bin/start.sh
+	
 	#UNIT script for jenkins
 	touch /etc/systemd/system/jenkins.service;
 	cat >/etc/systemd/system/jenkins.service << EOL
@@ -91,7 +92,8 @@ EOL
 
 	#Nginx installation and enabling
 	yum -y install nginx
-	sed -i  's/ location \/ {/ location \/ {proxy_pass http:\/\/192.168.56.102:8080;/' /etc/nginx/nginx.conf;
+	sed -i 's/ location \/ {/ location \/ {proxy_pass http:\/\/192.168.56.102:8080;/' /etc/nginx/nginx.conf;
+	sleep 3;
 	systemctl start nginx;
 	systemctl enable nginx;
 	echo "=========================NGINX has started===========================";
