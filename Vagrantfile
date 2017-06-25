@@ -38,8 +38,7 @@ config.vm.define "newjenkins" do |newjenkins|
 	mkdir -p /opt/jenkins/bin;
 	mkdir -p /opt/jenkins/master;
 	wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war;
-	java -jar /opt/jenkins/bin/jenkins.war"
-		
+			
 	#UNIT script for jenkins
 	touch /etc/systemd/system/jenkins.service;
 	cat >/etc/systemd/system/jenkins.service << EOL
@@ -54,7 +53,7 @@ config.vm.define "newjenkins" do |newjenkins|
 	Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/
 	Environment=JENKINS_HOME=/opt/jenkins/master
 	Environment=JENKINS_DIR=/opt/jenkins/bin
-	ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/lib/java -jar /opt/jenkins/bin/jenkins.war
+	ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/bin/java -jar /opt/jenkins/bin/jenkins.war &
 	ExecStop=/bin/kill -15 $MAINPID
 	User=jenkins
 	Group=jenkins
@@ -71,21 +70,17 @@ EOL
 	systemctl enable jenkins;
 	sleep 2;
 	chown -R jenkins:jenkins /opt/jenkins;
-	systemctl start jenkins;
-	ps -ef | grep java;
-	sleep 5;
-
-
-	echo "=========================Jenkins has started===========================";
+	
 
 	#Nginx installation and enabling
 	yum -y install nginx
-	sed -i 's/ location \/ {/ location \/ {proxy_pass http:\/\/192.168.56.102:8080;/' /etc/nginx/nginx.conf;
+	sed -i 's| location / {| location / {proxy_pass http://192.168.56.102:8080;|' /etc/nginx/nginx.conf;
 	sleep 3;
 	systemctl start nginx;
 	systemctl enable nginx;
-	echo "=========================NGINX has started===========================";
+	echo "=========================NGINX & Jenkins were started===========================";
 
+	systemctl start jenkins;
 	SHELL
 end
 end 
