@@ -2,9 +2,9 @@
 # vi: set ft=ruby :
 Vagrant.configure("2") do |config|
   config.vm.define "jenkins" do |jenkins|
-    jenkins.vm.box = "jenkins"
+    jenkins.vm.box = "sbeliakou/centos-7.3-x86_64-minimal "
     jenkins.vm.hostname = 'jenkins'
-    jenkins.vm.box_url = "/home/student/git_jenkins/sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
+    #jenkins.vm.box_url = "/home/student/git_jenkins/sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
 
     jenkins.vm.network :private_network, ip: "192.168.56.23"
 
