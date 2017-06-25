@@ -38,19 +38,8 @@ config.vm.define "newjenkins" do |newjenkins|
 	mkdir -p /opt/jenkins/bin;
 	mkdir -p /opt/jenkins/master;
 	wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war;
-	touch /opt/jenkins/bin/start.sh;
-	mkdir -p /log;
-	
-	#Fulling of custom startupscript
-	cat >/opt/jenkins/bin/start.sh << STFL
-	LOG_FILE=/log/jenkins.log
-	JENKINS_RUN="java -jar /opt/jenkins/bin/jenkins.war"
-	exec 1>>${LOG_FILE}
-	exec 2>>${LOG_FILE}
-	nohup $JENKINS_RUN >> $LOG_FILE &
-STFL
-	chmod +x /opt/jenkins/bin/start.sh
-	
+	java -jar /opt/jenkins/bin/jenkins.war"
+		
 	#UNIT script for jenkins
 	touch /etc/systemd/system/jenkins.service;
 	cat >/etc/systemd/system/jenkins.service << EOL
@@ -65,7 +54,7 @@ STFL
 	Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/
 	Environment=JENKINS_HOME=/opt/jenkins/master
 	Environment=JENKINS_DIR=/opt/jenkins/bin
-	ExecStart=/opt/jenkins/bin/start.sh
+	ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/lib/java -jar /opt/jenkins/bin/jenkins.war
 	ExecStop=/bin/kill -15 $MAINPID
 	User=jenkins
 	Group=jenkins
@@ -82,7 +71,6 @@ EOL
 	systemctl enable jenkins;
 	sleep 2;
 	chown -R jenkins:jenkins /opt/jenkins;
-	chown -R jenkins:jenkins /log;
 	systemctl start jenkins;
 	ps -ef | grep java;
 	sleep 5;
