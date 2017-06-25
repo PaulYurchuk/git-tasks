@@ -79,7 +79,7 @@ EOL
 
 	#Nginx installation and enabling
 	yum -y install nginx
-	sed -i 's/ location \/ {/ location \/ {proxy_pass http:\/\/192.168.56.102:8080;/' /etc/nginx/nginx.conf;
+	sed -i 's| location / {| location / {proxy_pass http://192.168.56.102:8080;|' /etc/nginx/nginx.conf;
 	sleep 3;
 	systemctl start nginx;
 	systemctl enable nginx;
