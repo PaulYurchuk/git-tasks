@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 Vagrant.configure("2") do |config|
    config.vm.box = "jenkins"
-   config.vm.box_url = "centos73-min.box"
+   config.vm.box_url = "https://atlas.hashicorp.com/sbeliakou/boxes/centos-7.3-x86_64-minimal"
    config.vm.hostname = "jenkins"
    config.vm.network "private_network", ip: "192.168.56.10"
    config.vm.provider "virtualbox" do |vb|
@@ -14,10 +14,10 @@ Vagrant.configure("2") do |config|
 	useradd jenkins
 	mkdir -p /opt/jenkins/bin
 	mkdir -p /opt/jenkins/master
-	cp /vagrant/jenkins.war /opt/jenkins/bin
+        wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
 	chown -R jenkins:jenkins /opt/jenkins
 	chmod -R 775 /opt/jenkins
-	yum localinstall /vagrant/jdk-8u131-linux-x64.rpm -y
+	yum install java-1.8.0-openjdk -y
 
 	# jenkins config
 	cat > /usr/lib/systemd/system/jenkins.service <<-EOF
