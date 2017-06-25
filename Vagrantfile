@@ -20,7 +20,7 @@ config.vm.define "newjenkins" do |newjenkins|
     		vb.name = "newjenkins"
    	end
 	newjenkins.vm.post_up_message = "Jenkins VM is ready to work"
-	newjenkins.vm.provision "shell", inline: <<=SHELL
+	newjenkins.vm.provision "shell", inline: <<-SHELL
 	#Making user jenkins
 	groupadd  jenkins;
 	useradd -g jenkins jenkins;
