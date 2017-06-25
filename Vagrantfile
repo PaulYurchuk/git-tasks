@@ -2,11 +2,9 @@ Vagrant.configure("2") do |config|
   config.vm.define "jenkins" do |jenkins|
     jenkins.vm.box = "jenkins"
     jenkins.vm.hostname = 'jenkins'
-    jenkins.vm.box_url = "sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
+    jenkins.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
 
     jenkins.vm.network :private_network, ip: "192.168.56.101"
-
-    jenkins.vm.synced_folder "share/", "/share"
     
     jenkins.vm.provider :virtualbox do |v|
       v.memory = "4096"
@@ -18,7 +16,7 @@ Vagrant.configure("2") do |config|
     useradd jenkins
     chown -R jenkins /opt/jenkins
     yum -y install java-devel
-    cp /share/jenkins.war  /opt/jenkins/bin/  
+    wget -P /opt/jenkins/bin/ http://mirrors.jenkins.io/war-stable/latest/jenkins.war 
     export JENKINS_DIR=/opt/jenkins/bin
     export JENKINS_HOME=/opt/jenkins/master
     echo "JENKINS_DIR=/opt/jenkins/bin
@@ -38,10 +36,10 @@ WantedBy=multi-user.target" > /etc/systemd/system/jenkins.service
     yum -y install nginx
     echo "location / {
                 proxy_pass http://192.168.56.101:8080/;
-        }" > /etc/nginx/default.d/jenkins.conf
+        }" > /etc/nginx/default.d/tomcat.conf
     sed -i 's@location / @location /index@g' /etc/nginx/nginx.conf
+    systemctl enable nginx
     systemctl start nginx
     SHELL
   end
 end
-
