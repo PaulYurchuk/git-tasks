@@ -1,7 +1,7 @@
 #! /bin/bash
 mkdir -p /opt/jenkins/bin
 mkdir /opt/jenkins/master
-wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
+#wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
 yum install java -y 
 
 useradd jenkins
@@ -18,4 +18,4 @@ export JENKINS_DIR=/opt/jenkins/bin
 cp /home/vagrant/jenkins.service /etc/systemd/system
 systemctl enable jenkins.service
 systemctl start jenkins.service
-cat /opt/jenkins/master/secrets/initialAdminPassword
+#cat /opt/jenkins/master/secrets/initialAdminPassword
