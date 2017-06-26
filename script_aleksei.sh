@@ -18,3 +18,4 @@ export JENKINS_DIR=/opt/jenkins/bin
 cp /home/vagrant/jenkins.service /etc/systemd/system
 systemctl enable jenkins.service
 systemctl start jenkins.service
+cat /opt/jenkins/master/secrets/initialAdminPassword
