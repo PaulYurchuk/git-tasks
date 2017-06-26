@@ -2,11 +2,13 @@
 # vi: set ft=ruby :
 Vagrant.configure("2") do |config|
    config.vm.box = "sbeliakou/centos-7.3-x86_64-minimal"
+   #config.vm.box = "centos73-min.box"
    config.vm.box_url = "https://atlas.hashicorp.com/sbeliakou/boxes/centos-7.3-x86_64-minimal"
+   #config.vm.box_url = "centos73-min.box"
    config.vm.hostname = "jenkins"
    config.vm.network "private_network", ip: "192.168.56.10"
    config.vm.provider "virtualbox" do |vb|
-   config.vm.synced_folder "./jenkins_home", "/opt/jenkins/master"
+   config.vm.synced_folder "./jenkins_home", "/opt/jenkins/master", mount_options: ["dmode=777,fmode=777"]
     vb.memory = "2048"
 
    end
@@ -16,10 +18,11 @@ Vagrant.configure("2") do |config|
 	useradd jenkins
 	mkdir -p /opt/jenkins/bin
 	wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
+	#cp /vagrant/jenkins.war /opt/jenkins/bin 
 	chown -R jenkins:jenkins /opt/jenkins
 	chmod -R 775 /opt/jenkins
 	yum install java-1.8.0-openjdk -y
-
+	
 	# jenkins config
 	cat > /usr/lib/systemd/system/jenkins.service <<-EOF
 	[Unit]
@@ -60,10 +63,15 @@ Vagrant.configure("2") do |config|
 
 	systemctl enable nginx
 	systemctl start nginx
+	echo "+++++++++++++++++++++++++++++"
+	echo "jenkins now available at $(ip address show dev enp0s8 | grep 'inet ' | cut -f2 | awk '{print $2}')"
+	echo "+++++++++++++++++++++++++++++"
+	sleep 10
 	echo "Jenkins unlock password"	
-	echo "++++++++++++++++++++++"	
+	echo "+++++++++++++++++++++++++++++"	
 	echo "$(cat /opt/jenkins/master/secrets/initialAdminPassword)"
-	echo "++++++++++++++++++++++"	
+	echo "+++++++++++++++++++++++++++++"	
 
     SHELL
+
 end
