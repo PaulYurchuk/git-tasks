@@ -6,15 +6,16 @@ Vagrant.configure("2") do |config|
    config.vm.hostname = "jenkins"
    config.vm.network "private_network", ip: "192.168.56.10"
    config.vm.provider "virtualbox" do |vb|
+   config.vm.synced_folder "./jenkins_home", "/opt/jenkins/master"
     vb.memory = "2048"
+
    end
 
    config.vm.provision "shell", inline: <<-SHELL
 
 	useradd jenkins
 	mkdir -p /opt/jenkins/bin
-	mkdir -p /opt/jenkins/master
-        wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
+	wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
 	chown -R jenkins:jenkins /opt/jenkins
 	chmod -R 775 /opt/jenkins
 	yum install java-1.8.0-openjdk -y
@@ -59,6 +60,10 @@ Vagrant.configure("2") do |config|
 
 	systemctl enable nginx
 	systemctl start nginx
+	echo "Jenkins unlock password"	
+	echo "++++++++++++++++++++++"	
+	echo "$(cat /opt/jenkins/master/secrets/initialAdminPassword)"
+	echo "++++++++++++++++++++++"	
 
     SHELL
 end
