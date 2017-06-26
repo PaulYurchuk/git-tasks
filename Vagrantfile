@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
 	Group=jenkins
 	Environment=JENKINS_HOME=/opt/jenkins/master
 	Environment=JENKINS_DIR=/opt/jenkins/bin
-	ExecStart=/usr/java/jdk1.8.0_131/jre/bin/java -jar /opt/jenkins/bin/jenkins.war
+	ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar /opt/jenkins/bin/jenkins.war
 	ExecStop=/bin/kill -s QUIT $MAINPID
 	[Install]
 	WantedBy=multi-user.target
