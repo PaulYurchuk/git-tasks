@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
 	#cp /vagrant/jenkins.war /opt/jenkins/bin 
 	chown -R jenkins:jenkins /opt/jenkins
 	chmod -R 775 /opt/jenkins
-	yum install java-1.8.0-openjdk -y
+	yum install java-1.8.0-openjdk-devel -y
 	
 	# jenkins config
 	cat > /usr/lib/systemd/system/jenkins.service <<-EOF
