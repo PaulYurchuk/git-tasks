@@ -6,6 +6,7 @@ Vagrant.configure("2") do |config|
 	jenkins.vm.hostname = "jenkins"
 	jenkins.vm.provider :virtualbox do |v|
 		v.customize ["modifyvm", :id, "--name", "jenkins"]
+	jenkins.vm.synced_folder "master/", "/opt/jenkins/master", type: "rsync"
 	end
 	jenkins.vm.provision "shell", inline: <<-SHELL
 		yum -y install java-1.8.0-openjdk-devel
@@ -17,7 +18,7 @@ Vagrant.configure("2") do |config|
 
         location / {
                 proxy_pass http://localhost:8080;
-		proxy_redirect  http://localhost:8080 $scheme://jenkins;
+		proxy_redirect  http://localhost:8080 http://jenkins;
         }
 
         error_page 404 /404.html;
@@ -32,22 +33,20 @@ EOL
 		systemctl start nginx.service
 
 		useradd jenkins
-		mkdir /opt/jenkins/
 		mkdir /opt/jenkins/bin
-		mkdir /opt/jenkins/master
 
-		chown -R jenkins /opt/jenkins/
+		chown -R jenkins:jenkins /opt/jenkins/
 		chmod -R 755 /opt/jenkins/
 
 		wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
 
-		export JENKINS_HOME=/opt/jenkins/master 
-		export JENKINS_DIR=/opt/jenkins/bin
 
 		cat > /etc/systemd/system/jenkins.service << EOL
 [Unit]
 Description=Jenkins Daemon
 [Service]
+Environment=JENKINS_HOME=/opt/jenkins/master
+Environment=JENKINS_DIR=/opt/jenkins/bin
 ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar /opt/jenkins/bin/jenkins.war
 User=jenkins
 [Install]
