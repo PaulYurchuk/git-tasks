@@ -8,11 +8,9 @@ Vagrant.configure("2") do |config|
    config.vm.hostname = "jenkins"
    config.vm.network "private_network", ip: "192.168.56.10"
    config.vm.provider "virtualbox" do |vb|
-   config.vm.synced_folder "./jenkins_home", "/opt/jenkins/master", mount_options: ["dmode=777,fmode=777"]
+   config.vm.synced_folder "./jenkins_home", "/opt/jenkins/master", create: true, mount_options: ["dmode=777,fmode=777"]
     vb.memory = "2048"
-
    end
-
    config.vm.provision "shell", inline: <<-SHELL
 
 	useradd jenkins
@@ -39,7 +37,6 @@ Vagrant.configure("2") do |config|
 	[Install]
 	WantedBy=multi-user.target
 	EOF
-
 	systemctl daemon-reload
 	systemctl enable jenkins
 	systemctl start jenkins
@@ -47,11 +44,10 @@ Vagrant.configure("2") do |config|
 	# nginx config
 	yum install epel-release -y
 	yum install nginx -y 
-
 	cat > /etc/nginx/conf.d/lb.conf <<-EOF
 	server {
 		listen 80;
-		server_name jenkins;
+		server_name jenkins 192.168.56.10;
 		location / {
 			sendfile off;
 			proxy_pass http://localhost:8080;
@@ -60,11 +56,12 @@ Vagrant.configure("2") do |config|
 				}
 		}
 	EOF
-
 	systemctl enable nginx
 	systemctl start nginx
+
 	echo "+++++++++++++++++++++++++++++"
-	echo "jenkins now available at $(ip address show dev enp0s8 | grep 'inet ' | cut -f2 | awk '{print $2}')"
+	echo "jenkins now available at $(ip address show dev enp0s8 | grep 'inet ' | cut -f2 | awk '{print $2}'):8080"
+	echo "or you can add '192.168.56.10 jenkins' to your hosts file and use http://jenkins instead of 'ip:port'"
 	echo "+++++++++++++++++++++++++++++"
 	sleep 10
 	echo "Jenkins unlock password"	
@@ -73,5 +70,4 @@ Vagrant.configure("2") do |config|
 	echo "+++++++++++++++++++++++++++++"	
 
     SHELL
-
 end
