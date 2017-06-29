@@ -4,13 +4,14 @@ Vagrant.configure("2") do |config|
     config.vm.define "VagrantJenkins" do |jenkins|
     jenkins.vm.box = "VagrantJenkins"
     jenkins.vm.hostname = 'VagrantJenkins'
-    #jenkins.vm.box_url = "/home/aliaksei_ulitsin/vagrant/Soft/sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
-    jenkins.vm.box_url = "https://atlas.hashicorp.com/sbeliakou/boxes/centos-7.3-x86_64-minimal"
+    jenkins.vm.box = "/home/aliaksei_ulitsin/vagrant/Soft/sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
+#    jenkins.vm.box_url = "https://atlas.hashicorp.com/sbeliakou/boxes/centos-7.3-x86_64-minimal"
     jenkins.vm.network :private_network, ip: "192.168.56.13"
-    config.vm.synced_folder "/home/aliaksei_ulitsin/vagrant/tmpvagrant/master_jenkins", "/opt/jenkins/"
+    config.vm.synced_folder "home/aliaksei_ulitsin/vagrant/jenkins/jenkins_home", "/opt/jenkins/master", create: true, mount_options: ["dmode=777,fmode=777"]
+#    config.vm.synced_folder "/home/aliaksei_ulitsin/vagrant/jenkins/git-tasks/master_jenkins", "/opt/jenkins/"
     jenkins.vm.provider "virtualbox" do |vb|
     	vb.memory = "4096"
-     	vb.name = "jenkins1"
+     	vb.name = "VagrantJenkins"
     end
     
     config.vm.provision "shell", inline: <<-SHELL
@@ -35,7 +36,8 @@ Vagrant.configure("2") do |config|
 	mkdir /opt/jenkins/bin;
 	mkdir /opt/jenkins/master;
 	chown -R jenkins:jenkins /opt/jenkins;
-	#cp /jenkins1/jenkins.war /opt/jenkins/bin/jenkins.war;
+#       cp /home/aliaksei_ulitsin/vagrant/jenkins/git-tasks/master_jenkins;
+#	cp /home/aliaksei_ulitsin/vagrant/jenkins/jenkins.war /opt/jenkins/bin/;
 	wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war;
 echo "
  [Unit]
@@ -46,6 +48,7 @@ echo "
   [Service]
 	Type=simple
 	Environment=JENKINS_HOME=/opt/jenkins/master
+        Environment=JENKINS_DIR=/opt/jenkins/bin
 	ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar /opt/jenkins/bin/jenkins.war
 	Restart=always
 	User=jenkins
@@ -53,6 +56,7 @@ echo "
 
   [Install]
 	WantedBy=multi-user.target " >> /etc/systemd/system/jenkins.service
+        systemctl daemon-reload
 	systemctl enable jenkins.service
 	systemctl start jenkins
 SHELL
