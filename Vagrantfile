@@ -7,8 +7,8 @@ Vagrant.configure("2") do |config|
     jenkins.vm.box = "/home/aliaksei_ulitsin/vagrant/Soft/sbeliakou-vagrant-centos-7.3-x86_64-minimal.box"
 #    jenkins.vm.box_url = "https://atlas.hashicorp.com/sbeliakou/boxes/centos-7.3-x86_64-minimal"
     jenkins.vm.network :private_network, ip: "192.168.56.13"
-    config.vm.synced_folder "home/aliaksei_ulitsin/vagrant/jenkins/jenkins_home", "/opt/jenkins/master", create: true, mount_options: ["dmode=777,fmode=777"]
-#    config.vm.synced_folder "/home/aliaksei_ulitsin/vagrant/jenkins/git-tasks/master_jenkins", "/opt/jenkins/"
+    config.vm.synced_folder "/home/aliaksei_ulitsin/vagrant/jenkins/jenkins_master", "/opt/jenkins/master", type: "rsync", mount_options: ["dmode=777,fmode=777"]
+#    config.vm.synced_folder "/home/aliaksei_ulitsin/vagrant/jenkins/git-tasks/", "/opt/jenkins/"
     jenkins.vm.provider "virtualbox" do |vb|
     	vb.memory = "4096"
      	vb.name = "VagrantJenkins"
@@ -36,8 +36,10 @@ Vagrant.configure("2") do |config|
 	mkdir /opt/jenkins/bin;
 	mkdir /opt/jenkins/master;
 	chown -R jenkins:jenkins /opt/jenkins;
-#       cp /home/aliaksei_ulitsin/vagrant/jenkins/git-tasks/master_jenkins;
-#	cp /home/aliaksei_ulitsin/vagrant/jenkins/jenkins.war /opt/jenkins/bin/;
+        wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
+#       cp /home/aliaksei_ulitsin/vagrant/jenkins/git-tasks/jenkins_master;
+#       cp /home/aliaksei_ulitsin/vagrant/jenkins/jenkins_master/jenkins.war /opt/jenkins/bin/;
+#       cp /home/aliaksei_ulitsin/vagrant/jenkins/jenkins.war /opt/jenkins/bin/;
 	wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war;
 echo "
  [Unit]
