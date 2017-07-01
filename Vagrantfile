@@ -35,7 +35,8 @@ Vagrant.configure("2") do |config|
 	mkdir /opt/jenkins;
 	mkdir /opt/jenkins/bin;
 	mkdir /opt/jenkins/master;
-	chown -R jenkins:jenkins /opt/jenkins;
+	chown -R vagrant:vagrant /opt/jenkins;
+#	chown -R jenkins:jenkins /opt/jenkins;
         wget -P /opt/jenkins/bin/ http://ftp-chi.osuosl.org/pub/jenkins/war-stable/2.60.1/jenkins.war
 #       cp /home/aliaksei_ulitsin/vagrant/jenkins/git-tasks/jenkins_master;
 #       cp /home/aliaksei_ulitsin/vagrant/jenkins/jenkins_master/jenkins.war /opt/jenkins/bin/;
@@ -51,17 +52,18 @@ echo "
 	Type=simple
 	Environment=JENKINS_HOME=/opt/jenkins/master
         Environment=JENKINS_DIR=/opt/jenkins/bin
-	ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -jar /opt/jenkins/bin/jenkins.war
-	Restart=always
+#	ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/jav -jar /opt/jenkins/bin/jenkins.war
+        ExecStart=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.131-3.b12.el7_3.x86_64/jre/bin/java -Djenkins.install.runSetupWizard=false -jar /opt/jenkins/bin/jenkins.war
+	
+Restart=always
 	User=jenkins
 	RestartSec=20
 
   [Install]
 	WantedBy=multi-user.target " >> /etc/systemd/system/jenkins.service
         systemctl daemon-reload
+	systemctl start jenkins.service
 	systemctl enable jenkins.service
-	systemctl start jenkins
 SHELL
 end
 end
-
