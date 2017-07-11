@@ -9,16 +9,27 @@ Vagrant.configure("2") do |config|
 	jenkins.vm.synced_folder "master/", "/opt/jenkins/master", type: "rsync"
 	end
 	jenkins.vm.provision "shell", inline: <<-SHELL
-		yum -y install java-1.8.0-openjdk-devel
-		yum -y install nginx
-		sed -i '39,44d;46,56d' /etc/nginx/nginx.conf
-		cat > /etc/nginx/default.d/redir_serv.conf << EOL
+		yum -y install java-1.8.0-openjdk-devel git nginx unzip 
+
+		wget https://services.gradle.org/distributions/gradle-3.5-bin.zip -p /opt/gradle
+		unzip /opt/gradle/gradle-3.5-bin.zip
+		mv gradle-3.5 gradle
+		ln -s /opt/gradle/bin /usr/bin/gradle
+
+		sed -i '38,57' /etc/nginx/nginx.conf
+		cat > /etc/nginx/conf.d/jenkins.conf << 'EOL'
+server {
         listen       80;
         server_name  jenkins;
-
+	ignore_invalid_headers off;
+	sendfile off;
         location / {
                 proxy_pass http://localhost:8080;
 		proxy_redirect  http://localhost:8080 http://jenkins;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto "http";
         }
 
         error_page 404 /404.html;
@@ -28,12 +39,14 @@ Vagrant.configure("2") do |config|
         error_page 500 502 503 504 /50x.html;
             location = /50x.html {
         }
+}
 EOL
 		systemctl enable nginx.service
 		systemctl start nginx.service
 
 		useradd jenkins
 		mkdir /opt/jenkins/bin
+		cp /vagrant/jenkins.war /opt/jenkins/bin/
 
 		chown -R jenkins:jenkins /opt/jenkins/
 		chmod -R 755 /opt/jenkins/
@@ -55,6 +68,9 @@ EOL
 		systemctl daemon-reload
 		systemctl enable jenkins.service
 		systemctl start jenkins.service
+
+		cat /opt/jenkins/master/secrets/initialAdminPassword
+
 	SHELL
   end
 end
